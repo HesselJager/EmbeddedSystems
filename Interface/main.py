@@ -1,24 +1,16 @@
-import time
+from serial_tools import SerialTools
 
 class Main:
-    ports = []
 
     def __init__(self):
-        self.ports = self.scanPorts()
+        self.start_threads()
 
-        for port in self.ports:
-            print port.device
+    def start_threads(self):
+        self.serial_tools = SerialTools()
+        self.serial_tools_thread = self.serial_tools.start()
 
-        ser = serial.Serial(port="COM3", baudrate=19200)
-
-        time.sleep(5)
-
-        if ser.isOpen():
-            test = 2
-            ser.write(bytes([test]))
-        else:
-            ser.open()
-
-        pass
+        self.serial_tools.set_port("COM4")
+        self.serial_tools.initialize_connection()
+        self.serial_tools.open_connection()
 
 Main()
