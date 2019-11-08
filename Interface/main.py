@@ -1,5 +1,3 @@
-import serial
-import serial.tools.list_ports
 import time
 
 class Main:
@@ -22,8 +20,5 @@ class Main:
             ser.open()
 
         pass
-
-    def scanPorts(self):
-        return serial.tools.list_ports.comports()
 
 Main()
