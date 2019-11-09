@@ -39,7 +39,7 @@ class SerialTools (threading.Thread):
     def open_connection(self):
         if self.arduino_port_serial is not None:
             if self.arduino_port_serial.isOpen():
-                raise Exception('Serial connection is already open!')
+                pass
             else:
                 self.arduino_port_serial.open()
         else:
@@ -49,10 +49,15 @@ class SerialTools (threading.Thread):
         self.arduino_port_serial.write(data)  # b'\x02' as example
 
     def read_data(self):
+        self.write_data(b'\x02')
+        print 'hey'
+
         line = self.arduino_port_serial.read()
 
         if (line != b''):
             print(int.from_bytes(line, "big"))
             print(line)
 
-        threading.Timer(0.01, self.read_data).start()
+
+        threading.Timer(1.01, self.read_data).start()
+

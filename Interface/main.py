@@ -6,11 +6,10 @@ class Main:
         self.start_threads()
 
     def start_threads(self):
-        self.serial_tools = SerialTools()
-        self.serial_tools_thread = self.serial_tools.start()
-
-        self.serial_tools.set_port("COM4")
-        self.serial_tools.initialize_connection()
-        self.serial_tools.open_connection()
+        self.serialTools = SerialTools()
+        self.serialTools.set_port("COM3")
+        self.serialTools.initialize_connection()
+        self.serialTools.open_connection()
+        self.serialTools.start()
 
 Main()
