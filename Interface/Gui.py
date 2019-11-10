@@ -1,15 +1,14 @@
 from tkinter import *
 from tkinter import ttk
-
-
+import matplotlib
 import matplotlib.pyplot as plt
 import random
 from itertools import count
 import pandas as pd
 from matplotlib.animation import FuncAnimation
 from matplotlib.figure import Figure
-import matplotlib.backends.backend_tkagg
-
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 
 # functie die entry1 checkt
@@ -77,7 +76,10 @@ plot1 = plt.show()
 
 f = Figure(figsize=(5,5), dpi=100)
 a = f.add_subplot(111)
-
+a.plot([1,2], [5,6])
+canvas = FigureCanvasTkAgg(f, tab2)
+canvas.draw()
+canvas.get_tk_widget() .pack(side=TOP, fill=BOTH, expand=True)
 
 
 
