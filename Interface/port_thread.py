@@ -7,7 +7,6 @@ class PortThread (threading.Thread):
     def __init__(self, port):
         threading.Thread.__init__(self)
         self.port = port
-
         self.ser = serial.Serial(port, baudrate=19200, timeout=5)
         time.sleep(2)
 
