@@ -20,10 +20,10 @@ class SerialThread (threading.Thread):
     def scan_ports(self):
         for port in serial.tools.list_ports.comports():
             try:
-                if "Arduino Uno" in str(port):
+                if "Arduino Uno" in str(port) or "Serieel USB-apparaat" in str(port):
                     if port.device not in self.ports:
                         portThread = PortThread(port.device)
-                        portThread.start()
+                        portThread.run()
 
                         self.ports.append(port.device)
             except: continue

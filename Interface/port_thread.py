@@ -7,13 +7,25 @@ class PortThread (threading.Thread):
     def __init__(self, port):
         threading.Thread.__init__(self)
         self.port = port
-        self.ser = serial.Serial(port=port, baudrate=9600, timeout=5)
 
-    def readCommand(self):
-        print 'hey'
+        self.ser = serial.Serial(port, baudrate=19200, timeout=5)
+        time.sleep(2)
+
+    def write_data(self, data): #something like b'\x02'
+        self.ser.write(data)
+        time.sleep(.5)
+
+    def read_data(self):
+        line = self.ser.read()
+
+        # only show bytes with content, not the empty ones
+        if line != b'':
+            # make sure to use int.from_bytes(line, "big")
+            # otherwise it will print something like b'\xa4'
+            return int.from_bytes(line, "big")
 
     def run(self):
-        length = ord(self.ser.read(1).decode('utf-8'))  # Get command length
-        commandString = self.ser.read(length).decode('utf-8')  # Get entire command with recieved length
-
-        threading.Timer(0.01, self.readCommand).start()
+        while True:
+            line = self.read_data()
+            if isinstance(line, int):
+                print(line)
