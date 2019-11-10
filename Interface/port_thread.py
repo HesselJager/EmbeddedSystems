@@ -1,14 +1,17 @@
 import threading
 import serial
+import time
 
 class PortThread (threading.Thread):
 
     def __init__(self, port):
-        self.port = port
-        self.ser = serial.Serial(port=self.port, baudrate=19200)
-
         threading.Thread.__init__(self)
+        self.port = port
+        self.ser = serial.Serial(port=port, baudrate=19200, timeout=5)
+
+    def readCommand(self):
+        print 'hey'
 
     def run(self):
-        self.ser.readline()
-        threading.Timer(1.01, self.run).start()
+        print self.ser.readline()
+        threading.Timer(0.01, self.readCommand).start()
