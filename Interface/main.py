@@ -8,7 +8,7 @@ from device import Device
 class Main(Thread):
 
     def __init__(self):
-        self.gui = Gui()
+        self.gui = Gui(self)
         self.gui.start()
 
         self.serial = SerialThread()

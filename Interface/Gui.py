@@ -5,12 +5,13 @@ import threading
 
 class Gui(Thread):
 
-    def __init__(self):
+    def __init__(self, main):
         Thread.__init__(self)
         self.device = None
         self.current_temperature = None
         self.current_light = None
-        
+        self.main = main
+
     def run(self):
         self.render()
 
