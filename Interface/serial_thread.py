@@ -1,6 +1,6 @@
 import serial
 import serial.tools.list_ports
-from Interface.device import Device
+from device import Device
 import threading
 from threading import *
 
