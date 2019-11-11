@@ -31,12 +31,12 @@ class PortThread (threading.Thread):
             # make sure to use int.from_bytes(line, "big")
             # otherwise it will print something like b'\xa4'
             if (self.device is not None):
-                print 'test'
-
+                print(ord(line))
                 with open(r'DATA_' + self.device + '.csv', 'ab') as csv_file:
                     csv_writer = csv.writer(csv_file, delimiter=';')
                     csv_writer.writerow([strftime("%Y-%m-%d %H:%M:%S", gmtime()), ord(line)])
 
+                    threading.Timer(0.01, self.read_data).start()
             return ord(line)
 
     # returns a string with temperature or light,
