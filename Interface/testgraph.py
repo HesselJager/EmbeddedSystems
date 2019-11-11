@@ -1,11 +1,11 @@
 import random
 from itertools import count
-
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from pandas import read_csv
+
 
 plt.style.use('fivethirtyeight')
-
 
 
 def animate(i):
