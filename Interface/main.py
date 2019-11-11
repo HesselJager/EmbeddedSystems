@@ -1,22 +1,20 @@
-from Interface.serial_thread import SerialThread
-from Interface.csv_thread import CsvThread
-from Interface.Gui import Gui
+from serial_thread import SerialThread
+from gui import Gui
+import threading
+from threading import *
+from time import sleep
+from device import Device
 
-class Main:
-
-    csv_data = []
+class Main(Thread):
 
     def __init__(self):
-        self.start_threads()
+        self.gui = Gui()
+        self.gui.start()
 
-    def start_threads(self):
-        self.serialTools = SerialThread()
-        self.serialTools.start()
+        self.serial = SerialThread()
+        self.serial.start()
 
-        self.csvThread = CsvThread(self)
-        self.csvThread.start()
-
-        self.Gui = Gui(self)
+        self.gui.setDevice(device)
 
 
-Main()
+main = Main()
