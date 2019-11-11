@@ -11,7 +11,7 @@ class CsvThread (threading.Thread):
         self.update()
 
     def update(self):
-        with open('test_data.csv', 'rb') as csv_file:
+        with open('test_data.csv', 'rt') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             results = []
 
