@@ -23,6 +23,21 @@ class PortThread (threading.Thread):
             # otherwise it will print something like b'\xa4'
             return int.from_bytes(line, "big")
 
+    def handshake(self):
+
+        device = None
+
+        # 0x96
+        if self.read_data() == 150:
+            device = 'TEMPERATURE'
+
+        # 0x69
+        if self.read_data() == 105:
+            device = 'LIGHT'
+
+        if device is not None:
+            return device
+
     def run(self):
         while True:
             line = self.read_data()
