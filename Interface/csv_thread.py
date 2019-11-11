@@ -1,15 +1,19 @@
-import threading
+from threading import *
 import csv
 
-class CsvThread (threading.Thread):
 
+class CsvThread(Thread):
+
+    # initialization for CsvThread object
     def __init__(self, main):
         self.main = main
-        threading.Thread.__init__(self)
+        Thread.__init__(self)
 
+    # function that runs a CsvThread object
     def run(self):
         self.update()
 
+    # function that updates the csv files
     def update(self):
         with open('test_data.csv', 'rt') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
@@ -19,4 +23,4 @@ class CsvThread (threading.Thread):
                 results.append(row)
                 self.main.csv_data = results
 
-        threading.Timer(1, self.update).start()
+        Timer(1, self.update).start()
