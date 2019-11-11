@@ -41,3 +41,23 @@ class PortThread (threading.Thread):
 
     def run(self):
         print(self.device)
+
+    def roll_out(self):
+        self.ser.write(b'\x03')
+        time.sleep(.5)
+
+    def roll_in(self):
+        self.ser.write(b'\x04')
+        time.sleep(.5)
+
+    def reset_to_default(self):
+        self.ser.write(b'\x05')
+        time.sleep(.5)
+
+    def disable_autoroll(self):
+        self.ser.write(b'\x06')
+        time.sleep(.5)
+
+    def enable_autoroll(self):
+        self.ser.write(b'\x07')
+        time.sleep(.5)
