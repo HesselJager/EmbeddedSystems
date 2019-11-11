@@ -80,16 +80,12 @@ class Gui:
 
         # grafiek voor de licht sensor
 
-        x_values = []
-        y_values = []
-
-        index = count()
 
         # run the windonw:
         window.mainloop()
 
     def animate(self):
-
+        # grafiek voor de licht sensor
         x_values = []
         y_values = []
 
