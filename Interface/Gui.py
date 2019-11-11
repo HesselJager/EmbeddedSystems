@@ -88,7 +88,7 @@ class Gui:
         # run the windonw:
         window.mainloop()
 
-    def animate(self, i):
+    def animate(self):
 
         x_values = []
         y_values = []
