@@ -9,7 +9,6 @@ class SerialThread(threading.Thread):
 
     # initialization of a SerialThread object
     def __init__(self):
-        Thread.__init__(self)
         threading.Thread.__init__(self)
         self.device = None
 
@@ -17,14 +16,12 @@ class SerialThread(threading.Thread):
     def run(self):
         self.update()
 
-    def setDevice(self, device):
+    # function that sets the device used
+    def set_device(self, device):
         self.device = device
 
-    def return_port_threads(self):
-        return self.port_threads
-
     # function that returns the device of a SerialThread object
-    def return_device(self):
+    def get_device(self):
         return self.device
 
     # function to update port states

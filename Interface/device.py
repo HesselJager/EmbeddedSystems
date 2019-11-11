@@ -2,6 +2,7 @@ import serial as serial
 import time
 from threading import *
 
+
 class Device(Thread):
 
     def __init__(self):
@@ -69,6 +70,7 @@ class Device(Thread):
     def send_command(self, command):
         # send command value to arduino and wait for a response
         self.write_data(command)
+        time.sleep(1)
         response = self.read_data()
 
         # check if the command is succesfully executed (0xAA) or not (0xBB)

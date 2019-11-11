@@ -15,7 +15,7 @@ class Main(threading.Thread):
         self.device = Device()
 
         self.serial = SerialThread()
-        self.serial.setDevice(self.device)
+        self.serial.set_device(self.device)
         self.gui.setDevice(self.device)
         self.serial.start()
 
