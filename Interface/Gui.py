@@ -89,6 +89,7 @@ class Gui:
         window.mainloop()
 
     def animate(self, i):
+
         x_values = []
         y_values = []
 
@@ -101,10 +102,10 @@ class Gui:
 
 
 
-        ani = FuncAnimation(plt.gcf(), animate, interval=1000)
-        plot1 = plt.show()
+        FuncAnimation(plt.gcf(), animate, interval=1000)
+        plt.show()
 
 
 
 gui = Gui()
-
+gui.animate()
