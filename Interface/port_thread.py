@@ -12,6 +12,9 @@ class PortThread (threading.Thread):
         self.handshake()
         time.sleep(2)
 
+    def get_device(self):
+        return self.device
+
     # function that write a number to the arduino
     def write_data(self, data): #something like b'\x02'
         self.ser.write(data)
