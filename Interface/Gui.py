@@ -2,47 +2,60 @@ from tkinter import *
 from tkinter import ttk
 from threading import *
 import threading
+from device import Device
+from time import sleep
 
 class Gui(Thread):
 
     def __init__(self):
         Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.device = None
-        self.current_temperature = None
-        self.current_light = None
+        self.current_temperature = 0
+        self.current_light = 0
+
+    def set_current_temperature(self, temperature):
+        self.current_temperature = temperature
+        print(self.current_temperature)
+        print(self.device)
         
     def run(self):
         self.render()
+        self.update()
+
+    def update(self):
+        self.render()
+        threading.Timer(1, self.update).start()
 
     def setDevice(self, device):
         self.device = device
 
     def button1Function(self):
         print("rolluik wordt uitgerold")
-        #self.main.port_thread.roll_out()
+        self.device.roll_out()
 
     def button2Function(self):
         print("rolluik wordt ingerold")
-        #self.main.port_thread.roll_in()
+        self.device.roll_in()
 
     def button3Function(self):
         print("waarde zijn gereset")
-        #self.main.port_thread.reset_to_default()
+        self.device.reset_to_default()
 
     def button4Function(self):
         print("automatisch in/autrollen is uitgeschakeld")
-        #self.main.port_thread.dissable_autoroll()
+        self.device.disable_autoroll()
 
 
     def button5Function(self):
         print("automatisch in/autrollen is ingeschakeld")
-        #self.main.port_thread.enable_autoroll()
+        self.device.enable_autoroll()
 
     def hitReturn(self):
         print("Data verzonden")
 
     def getTemperature(self):
-        return "15°C"
+        return self.current_temperature
 
     def getLight(self):
         return 3600
@@ -77,7 +90,7 @@ class Gui(Thread):
 
         label_temperature = Label(tab3, text=self.getTemperature())
         label_temperature.grid(row=2, column=0, sticky="W")
-        label_temperature.config(text=self.getTemperature())
+
 
         '''---------------------------------------------------------------'''
 
@@ -86,7 +99,6 @@ class Gui(Thread):
 
         label_light = Label(tab2, text=self.getLight())
         label_light.grid(row=2, column=0, sticky="W")
-        label_light.config(text=self.getLight())
 
         label2 = Label(tab1, text="maximale inrolwaarde:")
         label2.grid(row=4, column=0, sticky="W")
@@ -120,3 +132,6 @@ class Gui(Thread):
 
         # run the windonw:
         window.mainloop()
+
+
+

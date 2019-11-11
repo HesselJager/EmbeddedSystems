@@ -5,17 +5,17 @@ from threading import *
 
 class Device(Thread):
 
-    def __init__(self, port):
+    def __init__(self):
         Thread.__init__(self)
+
+
+    def run(self, port):
         self.ser = serial.Serial(port, baudrate=19200, timeout=5)
         time.sleep(1)
         self.device = None
         self.handshake()
         print('Unit is ', self.device)
         self.last_measure = 0
-        self.main()
-
-    def run(self):
         self.main()
         
     # returns a string with temperature or light,
@@ -57,10 +57,30 @@ class Device(Thread):
             if data is not None:
                 self.last_measure = data
 
-                print(data)
+                #print(data)
 
     def get_last_measure(self):
         return self.last_measure
 
     def get_device(self):
         return self.device
+
+    def roll_out(self):
+        self.ser.write(b'\x03')
+        time.sleep(.5)
+
+    def roll_in(self):
+        self.ser.write(b'\x04')
+        time.sleep(.5)
+
+    def reset_to_default(self):
+        self.ser.write(b'\x05')
+        time.sleep(.5)
+
+    def disable_autoroll(self):
+        self.ser.write(b'\x06')
+        time.sleep(.5)
+
+    def enable_autoroll(self):
+        self.ser.write(b'\x07')
+        time.sleep(.5)
