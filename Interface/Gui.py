@@ -22,6 +22,23 @@ class Gui:
     # functie die zorgt dat button1 het rolluik uitrolt
     def button1Function(self):
         print("rolluik wordt uitgerold")
+        self.main.port_thread.roll_out()
+
+    def button2Function(self):
+        print("rolluik wordt ingerold")
+        self.main.port_thread.roll_in()
+
+    def button3Function(self):
+        print("waarde zijn gereset")
+        self.main.port_thread.reset_to_default()
+
+    def button4Function(self):
+        print("automatisch in/autrollen is uitgeschakeld")
+        self.main.port_thread.dissable_autoroll()
+
+    def button5Function(self):
+        print("automatisch in/autrollen is ingeschakeld")
+        self.main.port_thread.enable_autoroll()
 
     def render(self):
         # main window:
@@ -66,16 +83,16 @@ class Gui:
         button1.grid(row = 8, column = 0, sticky = "W")
 
         #knop rolt het rolluik uit
-        button2 = Button(tab1, text = "Rol in")
+        button2 = Button(tab1, text = "Rol in", command= self.button2Function)
         button2.grid(row = 9, column = 0, sticky = "W")
 
-        button3 = Button(tab1, text = "automatisch in/uit rollen uitschakelen")
+        button3 = Button(tab1, text = "automatisch in/uit rollen uitschakelen", command =self.button3Function)
         button3.grid(row = 10, column = 0, sticky = "W")
 
-        button4 = Button(tab1, text = "automatisch in/uit rollen inschakelen")
+        button4 = Button(tab1, text = "automatisch in/uit rollen inschakelen", command= self.button4Function)
         button4.grid(row = 11, column = 0, sticky = "W")
 
-        button5 = Button(tab1, text = "Reset to default")
+        button5 = Button(tab1, text = "Reset to default", command = self.button5Function)
         button5.grid(row = 12, column = 0, sticky = "W")
 
         # grafiek voor de licht sensor
@@ -84,24 +101,30 @@ class Gui:
         # run the windonw:
         window.mainloop()
 
-    def animate(self):
-        # grafiek voor de licht sensor
-        x_values = []
-        y_values = []
-
-        index = count()
-        x_values.append(next(index))
-        y_values.append(random.randint(0, 5))
-        plt.cla()
-        plt.plot(x_values, y_values, label='Licht intensiteit')
-        plt.legend(loc='upper left')
-
-
-
-        FuncAnimation(plt.gcf(), animate, interval=1000)
-        plt.show()
 
 
 
 gui = Gui()
-gui.animate()
+
+
+#class Graph:
+ #   def __init__(self):
+  #      # grafiek voor de licht sensor
+   #     self.x_values = []
+    #    self.y_values = []
+#
+#        self.index = count()
+#
+#        def animate(self, i):
+#        x_values.append(next(index))
+#        y_values.append(random.randint(0, 5))
+#        plt.cla()
+ #       plt.plot(x_values, y_values, label='Licht intensiteit')
+#        plt.legend(loc='upper left')
+
+#    def start(self):
+#       self.ani = FuncAnimation(plt.gcf(), self.animate, interval=1000)
+
+#ani = Graph()
+#ani.start()
+#plt.show
