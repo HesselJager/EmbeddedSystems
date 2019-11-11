@@ -16,7 +16,7 @@ class Gui:
         self.render()
 
     # functie die entry1 checkt
-    def hitReturn(self):
+    def hitReturn(self, *args):
         print("Data verzonden")
 
     # functie die zorgt dat button1 het rolluik uitrolt
@@ -88,12 +88,17 @@ class Gui:
         # run the windonw:
         window.mainloop()
 
-    def animate(self):
+    def animate(self, i):
+        x_values = []
+        y_values = []
+
+        index = count()
         x_values.append(next(index))
         y_values.append(random.randint(0, 5))
         plt.cla()
         plt.plot(x_values, y_values, label='Licht intensiteit')
         plt.legend(loc='upper left')
+
 
 
         ani = FuncAnimation(plt.gcf(), animate, interval=1000)
