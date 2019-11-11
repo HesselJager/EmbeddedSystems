@@ -86,13 +86,13 @@ class Gui:
         button2 = Button(tab1, text = "Rol in", command= self.button2Function)
         button2.grid(row = 9, column = 0, sticky = "W")
 
-        button3 = Button(tab1, text = "automatisch in/uit rollen uitschakelen", command =self.button3Function)
+        button3 = Button(tab1, text = "automatisch in/uit rollen uitschakelen", command =self.button4Function)
         button3.grid(row = 10, column = 0, sticky = "W")
 
-        button4 = Button(tab1, text = "automatisch in/uit rollen inschakelen", command= self.button4Function)
+        button4 = Button(tab1, text = "automatisch in/uit rollen inschakelen", command= self.button5Function)
         button4.grid(row = 11, column = 0, sticky = "W")
 
-        button5 = Button(tab1, text = "Reset to default", command = self.button5Function)
+        button5 = Button(tab1, text = "Reset to default", command = self.button3Function)
         button5.grid(row = 12, column = 0, sticky = "W")
 
         # grafiek voor de licht sensor
