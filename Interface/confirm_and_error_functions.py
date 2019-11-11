@@ -11,12 +11,12 @@ def confirmation_message(last_command):
 
 def error_message(last_command):
     switcher = {
-        0x01: "Error: Maximale uitrol waarde mag niet kleiner zijn dan de maximale oprol waarde",
-        0x02: "Error: Maximale oprol waarde mag niet groter zijn dan de maximale uitrol waarde",
-        0x03: "Error: Het rolluik rolt al uit",
-        0x04: "Error: Het rolluik rolt al op",
-        0x06: "Error: Automatisch rollen is al uitgeschakeld",
-        0x07: "Error: Automatisch rollen is al ingeschakeld"}
+        0x01: "Fout: Maximale uitrol waarde mag niet kleiner zijn dan de maximale oprol waarde",
+        0x02: "Fout: Maximale oprol waarde mag niet groter zijn dan de maximale uitrol waarde",
+        0x03: "Fout: Het rolluik rolt al uit",
+        0x04: "Fout: Het rolluik rolt al op",
+        0x06: "Fout: Automatisch rollen is al uitgeschakeld",
+        0x07: "Fout: Automatisch rollen is al ingeschakeld"}
     return switcher.get(last_command)
 
 if(receive == 0xAA):
