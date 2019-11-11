@@ -1,20 +1,32 @@
 from tkinter import *
 from tkinter import ttk
 from threading import *
+import threading
+from Interface.device import Device
+from time import sleep
 
 class Gui(Thread):
 
     # initialize Gui object
-    def __init__(self, main):
-        Thread.__init__(self)
+    def __init__(self):
+        threading.Thread.__init__(self)
         self.device = None
-        self.current_temperature = None
-        self.current_light = None
-        self.main = main
+        self.current_temperature = 0
+        self.current_light = 0
+
+    def set_current_temperature(self, temperature):
+        self.current_temperature = temperature
+        print(self.current_temperature)
+        print(self.device)
 
     # run the Gui object
     def run(self):
         self.render()
+        self.update()
+
+    def update(self):
+        self.render()
+        threading.Timer(1, self.update).start()
 
     # function to set the current device
     def set_device(self, device):
@@ -35,27 +47,27 @@ class Gui(Thread):
     #
     def button1_press(self):
         print("rolluik wordt uitgerold")
-        #self.main.port_thread.roll_out()
+        self.device.roll_out()
 
 
     def button2_press(self):
         print("rolluik wordt ingerold")
-        #self.main.port_thread.roll_in()
+        self.device.roll_in()
 
 
     def button3_press(self):
         print("waarde zijn gereset")
-        #self.main.port_thread.reset_to_default()
+        self.device.reset_to_default()
 
 
     def button4_press(self):
         print("automatisch in/autrollen is uitgeschakeld")
-        #self.main.port_thread.dissable_autoroll()
+        self.device.disable_autoroll()
 
 
     def button5_press(self):
         print("automatisch in/autrollen is ingeschakeld")
-        #self.main.port_thread.enable_autoroll()
+        self.device.enable_autoroll()
 
     # placeholder function for sending data from entry field
     def hit_return(self):
@@ -63,7 +75,7 @@ class Gui(Thread):
 
     # placeholder function for temperature data
     def get_temperature(self):
-        return "15°C"
+        return self.current_temperature
 
     # placeholder function for light data
     def get_light(self):

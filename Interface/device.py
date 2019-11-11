@@ -4,9 +4,10 @@ from threading import *
 
 class Device(Thread):
 
-    # initialization of Device object
-    def __init__(self, port):
+    def __init__(self):
         Thread.__init__(self)
+
+    def run(self, port):
         self.ser = serial.Serial(port, baudrate=19200, timeout=5)
         time.sleep(1)
         self.device = None
@@ -15,10 +16,6 @@ class Device(Thread):
         self.last_measure = 0
         self.main()
 
-    # function that runs the main function
-    def run(self):
-        self.main()
-        
     # returns a string with temperature or light,
     # which indicates if the connected device is a
     # temperature sensor of a light sensor
@@ -108,3 +105,23 @@ class Device(Thread):
             b'\x06': "Fout: Automatisch rollen is al uitgeschakeld",
             b'\x07': "Fout: Automatisch rollen is al ingeschakeld"}
         return switcher.get(command, "invalid command")
+
+    def roll_out(self):
+        self.ser.write(b'\x03')
+        time.sleep(.5)
+
+    def roll_in(self):
+        self.ser.write(b'\x04')
+        time.sleep(.5)
+
+    def reset_to_default(self):
+        self.ser.write(b'\x05')
+        time.sleep(.5)
+
+    def disable_autoroll(self):
+        self.ser.write(b'\x06')
+        time.sleep(.5)
+
+    def enable_autoroll(self):
+        self.ser.write(b'\x07')
+        time.sleep(.5)
