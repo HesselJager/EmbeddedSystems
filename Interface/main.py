@@ -15,5 +15,4 @@ class Main:
         self.csvThread = CsvThread(self)
         self.csvThread.start()
 
-
 Main()

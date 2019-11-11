@@ -6,6 +6,7 @@ from port_thread import PortThread
 class SerialThread (threading.Thread):
 
     ports = []
+    port_threads = []
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -25,4 +26,5 @@ class SerialThread (threading.Thread):
                     portThread.run()
 
                     self.ports.append(port.device)
+                    self.port_threads.append([port.device, portThread])
             except: continue
