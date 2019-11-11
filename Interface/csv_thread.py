@@ -1,6 +1,4 @@
 import threading
-import io
-import numpy as np
 import csv
 
 class CsvThread (threading.Thread):
