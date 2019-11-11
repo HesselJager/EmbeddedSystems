@@ -1,6 +1,6 @@
-from serial_thread import SerialThread
-from csv_thread import CsvThread
-from Gui import Gui
+from Interface.serial_thread import SerialThread
+from Interface.csv_thread import CsvThread
+from Interface.Gui import Gui
 
 class Main:
 

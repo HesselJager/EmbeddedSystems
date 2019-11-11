@@ -1,7 +1,7 @@
 import threading
 import serial
 import serial.tools.list_ports
-from port_thread import PortThread
+from Interface.port_thread import PortThread
 
 class SerialThread (threading.Thread):
 
