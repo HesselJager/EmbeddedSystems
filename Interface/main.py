@@ -1,9 +1,9 @@
-from serial_thread import SerialThread
-from Gui import Gui
+from Interface.serial_thread import SerialThread
+from Interface.Gui import Gui
 import threading
 from threading import *
 from time import sleep
-from device import Device
+from Interface.device import Device
 
 class Main(Thread):
 
@@ -14,6 +14,6 @@ class Main(Thread):
         self.serial = SerialThread()
         self.serial.start()
 
-
+        #self.gui.setDevice(device)
 
 main = Main()
