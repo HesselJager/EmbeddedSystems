@@ -1,5 +1,6 @@
 from serial_thread import SerialThread
 from csv_thread import CsvThread
+from Gui import Gui
 
 class Main:
 
@@ -14,6 +15,8 @@ class Main:
 
         self.csvThread = CsvThread(self)
         self.csvThread.start()
+
+        self.Gui = Gui(self)
 
 
 Main()
