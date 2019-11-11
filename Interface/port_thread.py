@@ -34,13 +34,17 @@ class PortThread (threading.Thread):
     # which indicates if the connected device is a
     # temperature sensor of a light sensor
     def handshake(self):
-        # 0x96
-        if self.read_data() == 150:
-            self.device = 'TEMPERATURE'
 
-        # 0x69
-        if self.read_data() == 105:
-            self.device = 'LIGHT'
+        if self.read_data() == 255:
+            self.write_data(b'\xFF')
+
+            # 0x96
+            if self.read_data() == 150:
+                self.device = 'TEMPERATURE'
+
+            # 0x69
+            if self.read_data() == 105:
+                self.device = 'LIGHT'
 
     def run(self):
         print(self.device)
