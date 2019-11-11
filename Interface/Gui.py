@@ -8,6 +8,8 @@ class Gui(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.device = None
+        self.current_temperature = None
+        self.current_light = None
         
     def run(self):
         self.render()
@@ -39,6 +41,12 @@ class Gui(Thread):
     def hitReturn(self):
         print("Data verzonden")
 
+    def getTemperature(self):
+        return "15°C"
+
+    def getLight(self):
+        return 3600
+
     def render(self):
         # main window:
         window = Tk()
@@ -63,6 +71,22 @@ class Gui(Thread):
 
         label1 = Label(tab1, text="maximale uitrolwaarde:")
         label1.grid(row=1, column=0, sticky="W")
+
+        label_temperature_text = Label(tab3, text="Huidige temperatuur:")
+        label_temperature_text.grid(row=1, column=0, sticky="W")
+
+        label_temperature = Label(tab3, text=self.getTemperature())
+        label_temperature.grid(row=2, column=0, sticky="W")
+        label_temperature.config(text=self.getTemperature())
+
+        '''---------------------------------------------------------------'''
+
+        label_light_text = Label(tab2, text="Huidige lichintensiteit:")
+        label_light_text.grid(row=1, column=0, sticky="W")
+
+        label_light = Label(tab2, text=self.getLight())
+        label_light.grid(row=2, column=0, sticky="W")
+        label_light.config(text=self.getLight())
 
         label2 = Label(tab1, text="maximale inrolwaarde:")
         label2.grid(row=4, column=0, sticky="W")
