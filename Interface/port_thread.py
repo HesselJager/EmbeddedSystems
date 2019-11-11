@@ -31,17 +31,18 @@ class PortThread (threading.Thread):
             # make sure to use int.from_bytes(line, "big")
             # otherwise it will print something like b'\xa4'
             if (self.device is not None):
+                print 'test'
+
                 with open(r'DATA_' + self.device + '.csv', 'ab') as csv_file:
                     csv_writer = csv.writer(csv_file, delimiter=';')
-                    csv_writer.writerow([strftime("%Y-%m-%d %H:%M:%S", gmtime()), int.from_bytes(line, "big")])
-            
-            return int.from_bytes(line, "big")
+                    csv_writer.writerow([strftime("%Y-%m-%d %H:%M:%S", gmtime()), ord(line)])
+
+            return ord(line)
 
     # returns a string with temperature or light,
     # which indicates if the connected device is a
     # temperature sensor of a light sensor
     def handshake(self):
-
         if self.read_data() == 255:
             self.write_data(b'\xFF')
 
