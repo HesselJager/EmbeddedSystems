@@ -59,23 +59,23 @@ class Gui(threading.Thread):
 
     # function for when button 1 is pressed     # manual_roll_out
     def button1_press(self):
-        self.device.send_command(b'\x03')
+        self.device.set_command_check(b'\x03')
 
     # function for when button 2 is pressed     # manual_roll_in
     def button2_press(self):
-        self.device.send_command(b'\x04')
+        self.device.set_command_check(b'\x04')
 
     # function for when button 3 is pressed     # disable_autoroll
     def button3_press(self):
-        self.device.send_command(b'\x06')
+        self.device.set_command_check(b'\x06')
 
     # function for when button 4 is pressed     # enable_autoroll
     def button4_press(self):
-        self.device.send_command(b'\x07')
+        self.device.set_command_check(b'\x07')
 
     # function for when button 5 is pressed     # reset_to_default
     def button5_press(self):
-        self.device.send_command(b'\x05')
+        self.device.set_command_check(b'\x05')
 
     # placeholder function for sending data from entry field
     def hit_return(self):
@@ -166,6 +166,9 @@ class Gui(threading.Thread):
         # button that, when pressed, signals reset_to_default command in arduino
         button5 = Button(tab1, text="Reset standaard grenswaarden", command=self.button5_press)
         button5.grid(row=12, column=0, sticky="W")
+
+        # button6 = Button(tab1, text="error test", command=self.device.send_command(b'\x11'))
+        # button6.grid(row=13, column=0, sticky="W")
 
         # run the window:
         window.mainloop()

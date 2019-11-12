@@ -12,7 +12,7 @@ class Device(threading.Thread):
         threading.Thread.__init__(self)
         self.port = None
         self.ser = None
-        self.command_in_progress = False
+        self.command_check = b'\x00'
         self.device = None
         self.last_measure = 0
 
@@ -20,7 +20,7 @@ class Device(threading.Thread):
     def run(self):
         self.ser = serial.Serial(self.port, baudrate=19200, timeout=5)
         time.sleep(1)
-        self.command_in_progress = False
+        self.command_check = b'\x00'
         self.device = None
         self.last_measure = 0
 
@@ -43,9 +43,9 @@ class Device(threading.Thread):
             self.write_data(b'\xFF')
             device_id = self.read_data()
 
-            if device_id == 150:  # 0x96
+            if device_id == 150:                # 0x96
                 self.device = 'TEMPERATURE'
-            elif device_id == 105:  # 0x69
+            elif device_id == 105:              # 0x69
                 self.device = 'LIGHT'
             else:
                 print("Er ging iets fout bij de handshake")
@@ -70,7 +70,7 @@ class Device(threading.Thread):
 
     # main function
     def main(self):
-        #if self.command_in_progress == False:
+
         data = self.read_data()
         if data is not None:
             self.last_measure = data
@@ -87,27 +87,31 @@ class Device(threading.Thread):
     def get_device(self):
         return self.device
 
+    def set_command_check(self, command):
+        self.command_check = command
+
     # function that calls a command from the arduino
-    def send_command(self, command):
+    def send_command(self):
         self.command_in_progress = True
         print("command in progress")
 
         # send command value to arduino and wait for a response
-        self.write_data(command)
+        self.write_data(self.command_check)
         time.sleep(3)
         response = self.read_data()
         print("confirm", response)
 
         # check if the command is successfully executed (0xAA) or not (0xBB)
         if response == 170:         # 0xAA
-            print(self.confirmation_message(command))
+            print(self.confirmation_message())
         elif response == 187:       # 0xBB
-            print(self.error_message(command))
+            print(self.error_message())
         self.command_in_progress = False
         print("command no longer in progress")
+        self.command_check = b'\x00'
 
     # function that returns a confirmation message for a succesfully executed command
-    def confirmation_message(self, command):
+    def confirmation_message(self):
         switcher = {
             b'\x01': "Maximale uitrol waarde is succesvol aangepast",
             b'\x02': "Maximale oprol waarde is succesvol aangepast",
@@ -120,10 +124,10 @@ class Device(threading.Thread):
             b'\x08': ("enabled" if self.read_data() == 240 else "disabled"),  # get state of automatic rolling
             b'\x09': self.read_data(),                                        # get maximum roll out border
             b'\x0A': self.read_data()}                                        # get maximum roll in border
-        return switcher.get(command, "invalid command")
+        return switcher.get(self.command_check, "invalid command")
 
     # function that returns an error message for an executed command
-    def error_message(self, command):
+    def error_message(self):
         switcher = {
             b'\x01': "Fout: Maximale uitrol waarde mag niet kleiner zijn dan de maximale oprol waarde",
             b'\x02': "Fout: Maximale oprol waarde mag niet groter zijn dan de maximale uitrol waarde",
@@ -131,4 +135,4 @@ class Device(threading.Thread):
             b'\x04': "Fout: Het rolluik rolt al op",
             b'\x06': "Fout: Automatisch rollen is al uitgeschakeld",
             b'\x07': "Fout: Automatisch rollen is al ingeschakeld"}
-        return switcher.get(command, "invalid command")
+        return switcher.get(self.command_check, "invalid command")

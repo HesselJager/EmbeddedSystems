@@ -30,12 +30,19 @@ class Main(threading.Thread):
             self.device_type = self.device.get_device()
             try:
                 if self.device_type == 'TEMPERATURE':
-                    current_temperature = self.device.get_last_measure()
-                    self.gui.set_temperature(current_temperature)
+                    if self.device.command_check == b'\x00':
+                        current_temperature = self.device.get_last_measure()
+                        self.gui.set_temperature(current_temperature)
+                    else:
+                        self.device.send_command()
 
                 if self.device_type == 'LIGHT':
-                    current_light = self.device.get_last_measure()
-                    self.gui.set_light(current_light)
+                    if self.device.command_check == b'\x00':
+                        current_light = self.device.get_last_measure()
+                        self.gui.set_light(current_light)
+                    else:
+                        self.device.send_command()
+
 
                 self.gui.update()
                 sleep(5)
