@@ -27,14 +27,6 @@ class Device(threading.Thread):
         self.handshake()
         self.main()
 
-    # main function
-    def main(self):
-        while True:
-            if not self.command_in_progress:
-                data = self.read_data()
-                if data is not None:
-                    self.last_measure = data
-
     # setter for port
     def set_port(self, port):
         self.port = port
@@ -76,6 +68,17 @@ class Device(threading.Thread):
 
                 return ord(line)
 
+    # main function
+    def main(self):
+        #if self.command_in_progress == False:
+        data = self.read_data()
+        if data is not None:
+            self.last_measure = data
+
+    # getter for command in progress
+    def get_command_in_progress(self):
+        return self.command_in_progress
+
     # getter for last measurement
     def get_last_measure(self):
         return self.last_measure
@@ -87,20 +90,21 @@ class Device(threading.Thread):
     # function that calls a command from the arduino
     def send_command(self, command):
         self.command_in_progress = True
+        print("command in progress")
 
         # send command value to arduino and wait for a response
         self.write_data(command)
-        response = self.ser.read()
-
-        self.command_in_progress = False
-
-        print(response)
+        time.sleep(3)
+        response = self.read_data()
+        print("confirm", response)
 
         # check if the command is successfully executed (0xAA) or not (0xBB)
-        if response == 170:  # 0xAA
+        if response == 170:         # 0xAA
             print(self.confirmation_message(command))
-        elif response == 187:  # 0xBB
+        elif response == 187:       # 0xBB
             print(self.error_message(command))
+        self.command_in_progress = False
+        print("command no longer in progress")
 
     # function that returns a confirmation message for a succesfully executed command
     def confirmation_message(self, command):
@@ -114,8 +118,8 @@ class Device(threading.Thread):
             b'\x07': "Automatisch rollen is nu ingeschakeld",
             # the following three commands are getter functions
             b'\x08': ("enabled" if self.read_data() == 240 else "disabled"),  # get state of automatic rolling
-            b'\x09': self.read_data(),  # get maximum roll out border
-            b'\x0A': self.read_data()}  # get maximum roll in border
+            b'\x09': self.read_data(),                                        # get maximum roll out border
+            b'\x0A': self.read_data()}                                        # get maximum roll in border
         return switcher.get(command, "invalid command")
 
     # function that returns an error message for an executed command
