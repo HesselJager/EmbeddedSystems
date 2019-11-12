@@ -66,7 +66,8 @@ class Device(threading.Thread):
                 # make sure to use int.from_bytes(line, "big")
                 # otherwise it will print something like b'\xa4'
 
-                return ord(line)
+
+                   return ord(line)
 
     # main function
     def main(self):

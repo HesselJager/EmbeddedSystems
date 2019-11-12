@@ -35,11 +35,10 @@ class SerialThread(threading.Thread):
     # this function scans ports to see if a device is connected
     def scan_ports(self):
         for port in serial.tools.list_ports.comports():
-            if 'COM3' in port:
-                try:
-                    self.current_device = port.device
-                    self.device.set_port(port.device)
-                    print('Connected to:', port.device)
-                    self.device.run()
-                except:
-                    continue
+            try:
+                self.current_device = port.device
+                self.device.set_port(port.device)
+                #print('Connected to:', port.device)
+                self.device.run()
+            except:
+                continue

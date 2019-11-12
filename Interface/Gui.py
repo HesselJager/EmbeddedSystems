@@ -36,14 +36,10 @@ class Gui(threading.Thread):
     # setter for current_temperature
     def set_temperature(self, temperature):
         self.current_temperature = temperature
-        print(self.current_temperature)
-        print(self.device.get_device())
 
     # setter for current_light
     def set_light(self, light):
         self.current_light = light
-        print(self.current_light)
-        print(self.device.get_device())
 
     # getter for device
     def get_device(self):
@@ -105,10 +101,6 @@ class Gui(threading.Thread):
         # temperature sensor device tab
         tab3 = ttk.Frame(tab_control)
         tab_control.add(tab3, text="Temperatuursensor")
-
-        # ultrasound sensor tab
-        tab4 = ttk.Frame(tab_control)
-        tab_control.add(tab4, text="Ultrasoonsensor")
 
         # -------------------------------------------------LABELS
 
