@@ -4,7 +4,7 @@ import threading
 from threading import *
 from time import sleep
 from Interface.device import Device
-
+import Interface.app as app
 
 class Main(threading.Thread):
 
@@ -19,7 +19,9 @@ class Main(threading.Thread):
         self.gui.set_device(self.device)
         self.serial.start()
 
-        while True:
+        app.run_server()
+
+        while(True):
             self.device_type = self.device.get_device()
             try:
                 if self.device_type == 'TEMPERATURE':
