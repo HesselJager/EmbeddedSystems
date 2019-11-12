@@ -15,8 +15,8 @@ class Main(threading.Thread):
         self.device = Device()
 
         self.serial = SerialThread()
-        self.serial.setDevice(self.device)
-        self.gui.setDevice(self.device)
+        self.serial.set_device(self.device)
+        self.gui.set_device(self.device)
         self.serial.start()
 
         app.run_server()
@@ -26,11 +26,11 @@ class Main(threading.Thread):
             try:
                 if self.device_type == 'TEMPERATURE':
                     current_temperature = self.device.get_last_measure()
-                    self.gui.set_current_temperature(current_temperature)
+                    self.gui.set_temperature(current_temperature)
 
                 if self.device_type == 'LIGHT':
                     current_light = self.device.get_last_measure()
-                    self.gui.set_current_light(current_light)
+                    self.gui.set_light(current_light)
 
                 self.gui.update()
                 sleep(5)
