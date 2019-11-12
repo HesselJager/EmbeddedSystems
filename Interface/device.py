@@ -7,6 +7,8 @@ class Device(Thread):
 
     def __init__(self):
         Thread.__init__(self)
+        self.device = None
+
 
     def run(self, port):
         self.ser = serial.Serial(port, baudrate=19200, timeout=5)
@@ -55,8 +57,6 @@ class Device(Thread):
 
             if data is not None:
                 self.last_measure = data
-
-                print(data)
 
     def get_last_measure(self):
         return self.last_measure

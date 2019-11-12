@@ -19,11 +19,18 @@ class Main(Thread):
         self.serial.start()
 
         while(True):
+            self.device_type = self.device.get_device()
             try:
-                current_temperature = self.device.get_last_measure()
-                #print(self.device.get_last_measure())
+                if self.device_type == 'TEMPERATURE':
+                    current_temperature = self.device.get_last_measure()
+                    self.gui.set_current_temperature(current_temperature)
+
+                if self.device_type == 'LIGHT':
+                    current_light = self.device.get_last_measure()
+                    self.gui.set_current_light(current_light)
+
+                self.gui.update()
                 sleep(5)
-                self.gui.set_current_temperature(current_temperature)
             except: AttributeError
 
 

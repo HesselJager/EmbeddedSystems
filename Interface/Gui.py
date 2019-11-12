@@ -13,18 +13,22 @@ class Gui(Thread):
         self.device = None
         self.current_temperature = 0
         self.current_light = 0
+        self.label_temperature = None
+        self.label_light = None
 
     def set_current_temperature(self, temperature):
         self.current_temperature = temperature
-        print(self.current_temperature)
-        print(self.device)
+
+    def set_current_light(self, light):
+        self.current_light = light
         
     def run(self):
         self.render()
         self.update()
 
     def update(self):
-        self.render()
+        self.label_temperature.config(text=self.getTemperature())
+        self.label_light.config(text=self.getLight())
         threading.Timer(1, self.update).start()
 
     def setDevice(self, device):
@@ -55,10 +59,12 @@ class Gui(Thread):
         print("Data verzonden")
 
     def getTemperature(self):
-        return self.current_temperature
+        temp = self.current_temperature, '°C'
+        return temp
 
     def getLight(self):
-        return 3600
+        temp = self.current_light, 'Lumen'
+        return temp
 
     def render(self):
         # main window:
@@ -88,8 +94,8 @@ class Gui(Thread):
         label_temperature_text = Label(tab3, text="Huidige temperatuur:")
         label_temperature_text.grid(row=1, column=0, sticky="W")
 
-        label_temperature = Label(tab3, text=self.getTemperature())
-        label_temperature.grid(row=2, column=0, sticky="W")
+        self.label_temperature = Label(tab3, text=self.getTemperature())
+        self.label_temperature.grid(row=2, column=0, sticky="W")
 
 
         '''---------------------------------------------------------------'''
@@ -97,8 +103,8 @@ class Gui(Thread):
         label_light_text = Label(tab2, text="Huidige lichintensiteit:")
         label_light_text.grid(row=1, column=0, sticky="W")
 
-        label_light = Label(tab2, text=self.getLight())
-        label_light.grid(row=2, column=0, sticky="W")
+        self.label_light = Label(tab2, text=self.getLight())
+        self.label_light.grid(row=2, column=0, sticky="W")
 
         label2 = Label(tab1, text="maximale inrolwaarde:")
         label2.grid(row=4, column=0, sticky="W")
@@ -132,6 +138,3 @@ class Gui(Thread):
 
         # run the windonw:
         window.mainloop()
-
-
-
