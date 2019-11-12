@@ -6,9 +6,14 @@ from time import sleep
 from Interface.device import Device
 import Interface.app as app
 
+
+# noinspection PyBroadException,PyStatementEffect
 class Main(threading.Thread):
 
     def __init__(self):
+        # Thread.__init__(self)
+        threading.Thread.__init__(self)
+
         self.gui = Gui()
         self.gui.start()
 
@@ -19,9 +24,9 @@ class Main(threading.Thread):
         self.gui.set_device(self.device)
         self.serial.start()
 
-        app.run_server()
+        #app.run_server()
 
-        while(True):
+        while True:
             self.device_type = self.device.get_device()
             try:
                 if self.device_type == 'TEMPERATURE':
@@ -34,7 +39,8 @@ class Main(threading.Thread):
 
                 self.gui.update()
                 sleep(5)
-            except: AttributeError
+            except:
+                AttributeError
 
 
 main = Main()

@@ -3,14 +3,14 @@ from tkinter import ttk
 from threading import *
 import threading
 from Interface.device import Device
-from time import sleep
 
 
-class Gui(Thread):
+# noinspection PyArgumentList,PyCallByClass,PyMethodMayBeStatic
+class Gui(threading.Thread):
 
     # initialize Gui object
     def __init__(self):
-        Thread.__init__(self)
+        # Thread.__init__(self)
         threading.Thread.__init__(self)
         self.device = Device
         self.label_temperature = Label
@@ -37,13 +37,13 @@ class Gui(Thread):
     def set_temperature(self, temperature):
         self.current_temperature = temperature
         print(self.current_temperature)
-        print(self.device)
+        print(self.device.get_device())
 
     # setter for current_light
     def set_light(self, light):
         self.current_light = light
         print(self.current_light)
-        print(self.device)
+        print(self.device.get_device())
 
     # getter for device
     def get_device(self):

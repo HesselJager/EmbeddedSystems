@@ -5,13 +5,14 @@ import threading
 from threading import *
 
 
+# noinspection PyBroadException,PyArgumentList
 class SerialThread(threading.Thread):
 
     # initialization of a SerialThread object
     def __init__(self):
-        Thread.__init__(self)
+        # Thread.__init__(self)
         threading.Thread.__init__(self)
-        self.device = None
+        self.device = Device
         self.current_device = None
 
     # function that runs updates on the ports
@@ -37,7 +38,8 @@ class SerialThread(threading.Thread):
             if 'COM3' in port:
                 try:
                     self.current_device = port.device
+                    self.device.set_port(port.device)
                     print('Connected to:', port.device)
-                    self.device.run(port.device)
+                    self.device.run()
                 except:
                     continue

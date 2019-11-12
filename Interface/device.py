@@ -4,25 +4,36 @@ import threading
 from threading import *
 
 
-class Device(Thread):
+# noinspection PyMethodMayBeStatic
+class Device(threading.Thread):
 
     def __init__(self):
-        Thread.__init__(self)
+        # Thread.__init__(self)
         threading.Thread.__init__(self)
         self.port = None
-        self.device = None
         self.ser = None
+        self.command_in_progress = False
+        self.device = None
         self.last_measure = 0
 
     # run thread function for Device object
     def run(self):
         self.ser = serial.Serial(self.port, baudrate=19200, timeout=5)
         time.sleep(1)
+        self.command_in_progress = False
         self.device = None
-        self.handshake()
-        print('Unit is:', self.device)
         self.last_measure = 0
+
+        self.handshake()
         self.main()
+
+    # main function
+    def main(self):
+        while True:
+            if not self.command_in_progress:
+                data = self.read_data()
+                if data is not None:
+                    self.last_measure = data
 
     # setter for port
     def set_port(self, port):
@@ -40,11 +51,14 @@ class Device(Thread):
             self.write_data(b'\xFF')
             device_id = self.read_data()
 
-            # 0x96
-            if device_id == 150:
+            if device_id == 150:  # 0x96
                 self.device = 'TEMPERATURE'
-            elif device_id == 105:
+            elif device_id == 105:  # 0x69
                 self.device = 'LIGHT'
+            else:
+                print("Er ging iets fout bij de handshake")
+
+            print('Unit is:', self.device)
 
     # function that write a number to the arduino
     def write_data(self, data):  # something like b'\x02'
@@ -62,15 +76,6 @@ class Device(Thread):
 
                 return ord(line)
 
-    # main function
-    def main(self):
-
-        while True:
-            data = self.read_data()
-
-            if data is not None:
-                self.last_measure = data
-
     # getter for last measurement
     def get_last_measure(self):
         return self.last_measure
@@ -81,16 +86,20 @@ class Device(Thread):
 
     # function that calls a command from the arduino
     def send_command(self, command):
+        self.command_in_progress = True
+
         # send command value to arduino and wait for a response
         self.write_data(command)
         response = self.ser.read()
 
+        self.command_in_progress = False
+
         print(response)
 
-        # check if the command is succesfully executed (0xAA) or not (0xBB)
-        if response == 170: #0xAA
+        # check if the command is successfully executed (0xAA) or not (0xBB)
+        if response == 170:  # 0xAA
             print(self.confirmation_message(command))
-        elif response == 187: #0xBB
+        elif response == 187:  # 0xBB
             print(self.error_message(command))
 
     # function that returns a confirmation message for a succesfully executed command
@@ -105,8 +114,8 @@ class Device(Thread):
             b'\x07': "Automatisch rollen is nu ingeschakeld",
             # the following three commands are getter functions
             b'\x08': ("enabled" if self.read_data() == 240 else "disabled"),  # get state of automatic rolling
-            b'\x09': self.read_data(),                                        # get maximum roll out border
-            b'\x0A': self.read_data()}                                       # get maximum roll in border
+            b'\x09': self.read_data(),  # get maximum roll out border
+            b'\x0A': self.read_data()}  # get maximum roll in border
         return switcher.get(command, "invalid command")
 
     # function that returns an error message for an executed command
