@@ -1,11 +1,12 @@
-from serial_thread import SerialThread
-from Gui import Gui
+from Interface.serial_thread import SerialThread
+from Interface.Gui import Gui
 import threading
 from threading import *
 from time import sleep
-from device import Device
+from Interface.device import Device
 
-class Main(Thread):
+
+class Main(threading.Thread):
 
     def __init__(self):
         self.gui = Gui()
@@ -14,7 +15,7 @@ class Main(Thread):
         self.device = Device()
 
         self.serial = SerialThread()
-        self.serial.setDevice(self.device)
+        self.serial.set_device(self.device)
         self.gui.setDevice(self.device)
         self.serial.start()
 
@@ -32,7 +33,6 @@ class Main(Thread):
                 self.gui.update()
                 sleep(5)
             except: AttributeError
-
 
 
 main = Main()
