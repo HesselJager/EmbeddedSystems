@@ -26,13 +26,12 @@ class SerialThread(threading.Thread):
     def scan_ports(self):
         for port in serial.tools.list_ports.comports():
             if 'COM3' in port:  # om mijn leven makkelijker te maken, usb koptelefoon, zucht
-                if port.device != self.current_device:
-                    try:
-                        self.current_device = port.device
-                        print('Connected to ', port.device)
-                        self.device.run(port.device)
+                try:
+                    self.current_device = port.device
+                    print('Connected to ', port.device)
+                    self.device.run(port.device)
 
-                    except:
-                        continue
+                except:
+                    continue
 
 
