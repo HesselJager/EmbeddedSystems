@@ -12,11 +12,11 @@ class Gui(Thread):
     def __init__(self):
         Thread.__init__(self)
         threading.Thread.__init__(self)
-        self.device = None
+        self.device = Device
+        self.label_temperature = Label
+        self.label_light = Label
         self.current_temperature = 0
         self.current_light = 0
-        self.label_temperature = None
-        self.label_light = None
 
     # run the Gui object
     def run(self):
@@ -123,17 +123,17 @@ class Gui(Thread):
         label_light_text = Label(tab2, text="Huidige lichintensiteit:")
         label_light_text.grid(row=1, column=0, sticky="W")
 
-        label_light = Label(tab2, text=self.get_light())
-        label_light.grid(row=2, column=0, sticky="W")
-        label_light.config(text=self.get_light())
+        self.label_light = Label(tab2, text=self.get_light())
+        self.label_light.grid(row=2, column=0, sticky="W")
+        self.label_light.config(text=self.get_light())
 
         # labels for temperature sensor tab
         label_temperature_text = Label(tab3, text="Huidige temperatuur:")
         label_temperature_text.grid(row=1, column=0, sticky="W")
 
-        label_temperature = Label(tab3, text=self.get_temperature())
-        label_temperature.grid(row=2, column=0, sticky="W")
-        label_temperature.config(text=self.get_temperature())
+        self.label_temperature = Label(tab3, text=self.get_temperature())
+        self.label_temperature.grid(row=2, column=0, sticky="W")
+        self.label_temperature.config(text=self.get_temperature())
 
         # -------------------------------------------------INPUT
 

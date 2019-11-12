@@ -9,16 +9,28 @@ class Device(Thread):
     def __init__(self):
         Thread.__init__(self)
         threading.Thread.__init__(self)
+        self.port = None
+        self.device = None
+        self.ser = None
+        self.last_measure = 0
 
-
-    def run(self, port):
-        self.ser = serial.Serial(port, baudrate=19200, timeout=5)
+    # run thread function for Device object
+    def run(self):
+        self.ser = serial.Serial(self.port, baudrate=19200, timeout=5)
         time.sleep(1)
         self.device = None
         self.handshake()
         print('Unit is:', self.device)
         self.last_measure = 0
         self.main()
+
+    # setter for port
+    def set_port(self, port):
+        self.port = port
+
+    # getter for port
+    def get_port(self):
+        return self.port
 
     # returns a string with temperature or light,
     # which indicates if the connected device is a
@@ -27,8 +39,6 @@ class Device(Thread):
         if self.read_data() == 255:
             self.write_data(b'\xFF')
             device_id = self.read_data()
-
-            print(device_id)
 
             # 0x96
             if device_id == 150:
@@ -52,17 +62,20 @@ class Device(Thread):
 
                 return ord(line)
 
+    # main function
     def main(self):
 
-        while (True):
+        while True:
             data = self.read_data()
 
             if data is not None:
                 self.last_measure = data
 
+    # getter for last measurement
     def get_last_measure(self):
         return self.last_measure
 
+    # getter for device name
     def get_device(self):
         return self.device
 
