@@ -9,8 +9,10 @@ class SerialThread(threading.Thread):
 
     # initialization of a SerialThread object
     def __init__(self):
+        Thread.__init__(self)
         threading.Thread.__init__(self)
         self.device = None
+        self.current_device = None
 
     # function that runs updates on the ports
     def run(self):
@@ -27,7 +29,6 @@ class SerialThread(threading.Thread):
     # function to update port states
     def update(self):
         self.scan_ports()
-        print(self.device)
         threading.Timer(1, self.update).start()
 
     # this function scans ports to see if a device is connected
@@ -35,7 +36,9 @@ class SerialThread(threading.Thread):
         for port in serial.tools.list_ports.comports():
             if 'COM3' in port:
                 try:
+                    self.current_device = port.device
                     print('Connected to ', port.device)
                     self.device.run(port.device)
+
                 except:
                     continue

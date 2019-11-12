@@ -10,10 +10,13 @@ class Gui(Thread):
 
     # initialize Gui object
     def __init__(self):
+        Thread.__init__(self)
         threading.Thread.__init__(self)
         self.device = None
         self.current_temperature = 0
         self.current_light = 0
+        self.label_temperature = None
+        self.label_light = None
 
     # run the Gui object
     def run(self):
@@ -22,7 +25,8 @@ class Gui(Thread):
 
     # update the Gui objects render
     def update(self):
-        self.render()
+        self.label_temperature.config(text=self.get_temperature())
+        self.label_light.config(text=self.get_light())
         threading.Timer(1, self.update).start()
 
     # setter for device
