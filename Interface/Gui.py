@@ -5,6 +5,7 @@ import threading
 from Interface.device import Device
 from time import sleep
 
+
 class Gui(Thread):
 
     # initialize Gui object
@@ -14,72 +15,67 @@ class Gui(Thread):
         self.current_temperature = 0
         self.current_light = 0
 
-    def set_current_temperature(self, temperature):
-        self.current_temperature = temperature
-        print(self.current_temperature)
-        print(self.device)
-
     # run the Gui object
     def run(self):
         self.render()
         self.update()
 
+    # update the Gui objects render
     def update(self):
         self.render()
         threading.Timer(1, self.update).start()
 
-    # function to set the current device
+    # setter for device
     def set_device(self, device):
         self.device = device
+
+    # setter for current_temperature
+    def set_temperature(self, temperature):
+        self.current_temperature = temperature
+        print(self.current_temperature)
+        print(self.device)
+
+    # setter for current_light
+    def set_light(self, light):
+        self.current_light = light
+        print(self.current_light)
+        print(self.device)
 
     # getter for device
     def get_device(self):
         return self.device
 
-    # getter for current temperature
-    def get_current_temperature(self):
+    # getter for current_temperature
+    def get_temperature(self):
         return self.current_temperature
 
-    # getter for current light
-    def get_current_light(self):
+    # getter for current_light
+    def get_light(self):
         return self.current_light
 
-    #
+    # function for when button 1 is pressed     # manual_roll_out
     def button1_press(self):
-        print("rolluik wordt uitgerold")
-        self.device.roll_out()
+        self.device.send_command(b'\x03')
 
-
+    # function for when button 2 is pressed     # manual_roll_in
     def button2_press(self):
-        print("rolluik wordt ingerold")
-        self.device.roll_in()
+        self.device.send_command(b'\x04')
 
-
+    # function for when button 3 is pressed     # disable_autoroll
     def button3_press(self):
-        print("waarde zijn gereset")
-        self.device.reset_to_default()
+        self.device.send_command(b'\x06')
 
-
+    # function for when button 4 is pressed     # enable_autoroll
     def button4_press(self):
-        print("automatisch in/autrollen is uitgeschakeld")
-        self.device.disable_autoroll()
+        self.device.send_command(b'\x07')
 
-
+    # function for when button 5 is pressed     # reset_to_default
     def button5_press(self):
-        print("automatisch in/autrollen is ingeschakeld")
-        self.device.enable_autoroll()
+        self.device.send_command(b'\x05')
 
     # placeholder function for sending data from entry field
     def hit_return(self):
         print("Data verzonden")
-
-    # placeholder function for temperature data
-    def get_temperature(self):
-        return self.current_temperature
-
-    # placeholder function for light data
-    def get_light(self):
-        return 3600
 
     # function to render the GUI on screen
     def render(self):
@@ -156,15 +152,15 @@ class Gui(Thread):
         button2.grid(row=9, column=0, sticky="W")
 
         # button that, when pressed, signals disable_autoroll_in command in arduino
-        button3 = Button(tab1, text="automatisch rollen uitschakelen", command=self.button4_press)
+        button3 = Button(tab1, text="automatisch rollen uitschakelen", command=self.button3_press)
         button3.grid(row=10, column=0, sticky="W")
 
         # button that, when pressed, signals enable_autoroll in command in arduino
-        button4 = Button(tab1, text="automatisch rollen inschakelen", command=self.button5_press)
+        button4 = Button(tab1, text="automatisch rollen inschakelen", command=self.button4_press)
         button4.grid(row=11, column=0, sticky="W")
 
         # button that, when pressed, signals reset_to_default command in arduino
-        button5 = Button(tab1, text="Reset standaard grenswaarden", command=self.button3_press)
+        button5 = Button(tab1, text="Reset standaard grenswaarden", command=self.button5_press)
         button5.grid(row=12, column=0, sticky="W")
 
         # run the windonw:

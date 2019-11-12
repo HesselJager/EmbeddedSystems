@@ -16,11 +16,11 @@ class SerialThread(threading.Thread):
     def run(self):
         self.update()
 
-    # function that sets the device used
+    # setter for device
     def set_device(self, device):
         self.device = device
 
-    # function that returns the device of a SerialThread object
+    # getter for device
     def get_device(self):
         return self.device
 
@@ -33,7 +33,7 @@ class SerialThread(threading.Thread):
     # this function scans ports to see if a device is connected
     def scan_ports(self):
         for port in serial.tools.list_ports.comports():
-            if 'COM3' in port:  # om mijn leven makkelijker te maken, usb koptelefoon, zucht
+            if 'COM3' in port:
                 try:
                     print('Connected to ', port.device)
                     self.device.run(port.device)
