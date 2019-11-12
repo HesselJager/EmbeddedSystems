@@ -4,7 +4,7 @@ import threading
 from threading import *
 from time import sleep
 from Interface.device import Device
-
+import Interface.app as app
 
 class Main(threading.Thread):
 
@@ -18,6 +18,8 @@ class Main(threading.Thread):
         self.serial.setDevice(self.device)
         self.gui.setDevice(self.device)
         self.serial.start()
+
+        app.run_server()
 
         while(True):
             self.device_type = self.device.get_device()
