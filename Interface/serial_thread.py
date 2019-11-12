@@ -37,7 +37,7 @@ class SerialThread(threading.Thread):
             if 'COM3' in port:
                 try:
                     self.current_device = port.device
-                    print('Connected to ', port.device)
+                    print('Connected to:', port.device)
                     self.device.run(port.device)
                 except:
                     continue
