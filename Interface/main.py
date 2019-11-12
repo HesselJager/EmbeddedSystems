@@ -31,7 +31,9 @@ class Main(threading.Thread):
             try:
                 if self.device_type == 'TEMPERATURE':
                     current_temperature = self.device.get_last_measure()
-                    self.gui.set_temperature(current_temperature)
+
+                    if current_temperature != 38:
+                        self.gui.set_temperature(current_temperature)
 
                 if self.device_type == 'LIGHT':
                     current_light = self.device.get_last_measure()
