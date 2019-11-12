@@ -88,7 +88,7 @@ class Gui(Thread):
         window.title("Centrale")
         window.geometry("500x500")
 
-        #-------------------------------------------------TABS
+        # -------------------------------------------------TABS
 
         # widget that implements the tabs in the GUI
         tab_control = ttk.Notebook(window)
@@ -110,7 +110,7 @@ class Gui(Thread):
         tab4 = ttk.Frame(tab_control)
         tab_control.add(tab4, text="Ultrasoonsensor")
 
-        #-------------------------------------------------LABELS
+        # -------------------------------------------------LABELS
 
         # labels for settings tab
         label1 = Label(tab1, text="maximale uitrolwaarde:")
@@ -135,7 +135,7 @@ class Gui(Thread):
         label_temperature.grid(row=2, column=0, sticky="W")
         label_temperature.config(text=self.get_temperature())
 
-        #-------------------------------------------------INPUT
+        # -------------------------------------------------INPUT
 
         # Entry field that can update the maximum roll out value in arduino
         entry1 = Entry(tab1)
@@ -167,5 +167,5 @@ class Gui(Thread):
         button5 = Button(tab1, text="Reset standaard grenswaarden", command=self.button5_press)
         button5.grid(row=12, column=0, sticky="W")
 
-        # run the windonw:
+        # run the window:
         window.mainloop()

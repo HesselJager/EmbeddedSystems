@@ -19,7 +19,7 @@ class Main(threading.Thread):
         self.gui.set_device(self.device)
         self.serial.start()
 
-        while(True):
+        while True:
             self.device_type = self.device.get_device()
             try:
                 if self.device_type == 'TEMPERATURE':

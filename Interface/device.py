@@ -3,14 +3,17 @@ import time
 import threading
 from threading import *
 
+
 class Device(Thread):
 
     def __init__(self):
         Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.device = None
 
 
     def run(self, port):
+        print("test")
         self.ser = serial.Serial(port, baudrate=19200, timeout=5)
         time.sleep(1)
         self.device = None
